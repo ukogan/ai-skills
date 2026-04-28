@@ -1,61 +1,27 @@
-# /sharpen
+# ai-skills
 
-A new mode for [Claude Code](https://claude.com/claude-code): concept planning that runs before plan mode.
+Skills I've built for [Claude Code](https://claude.com/claude-code). Each skill is a self-contained folder you can install on its own.
 
-![Sharpen, then plan, then code](images/post-hero.png)
+## Skills
 
-A read-only dialogue mode that sits between "rough idea" and plan mode. The goal: by the time `/sharpen` exits, the requirements are specific enough that plan mode is purely about implementation, not about understanding what you want.
+| Skill | What it does |
+|-------|--------------|
+| [`/sharpen`](sharpen/) | A read-only dialogue mode for sharpening requirements before plan mode. Captures the ask, probes edge cases, optionally generates wireframes, and runs a supportability check against your codebase before plan mode commits engineering work. |
 
-Strict read-only on the codebase. The only writable targets are `requirements/<slug>.md` and any wireframe files it produces alongside it.
-
-![How /sharpen works](images/phase-pipeline.png)
-
-## When to use
-
-- Branchy feedback or feature asks with embedded examples and "even better would be" extensions.
-- "Don't implement yet — let's nail down the requirements first."
-- Mid-flow design questions you'd rather settle in conversation than in a plan.
-
-Skip for trivial fixes and clear bug reports — just fix those.
-
-## What you get out
-
-A `requirements/<slug>.md` artifact with:
-
-- The conceptual shift, in plain English (not file paths or function names).
-- User stories, functional requirements with supportability tags (Already supported / Trivial / Moderate / Heavy).
-- Edge cases addressed; out-of-scope items called out.
-- Open questions deferred to plan mode.
-- Deferred / cut items, with rationale — so plan mode doesn't quietly pick them up later.
-
-Plus optional wireframes (ASCII inline, HTML mockups, or a Claude Design prompt — your pick based on whether you're exploring directions or refining one).
-
-## Install
+## Install one skill
 
 ```bash
 git clone https://github.com/ukogan/ai-skills.git
-cp -r ai-skills/ai-skills/sharpen ~/.claude/skills/sharpen/
+cp -r ai-skills/<skill-name> ~/.claude/skills/<skill-name>/
 ```
 
-Or symlink so you get updates:
+Or symlink so the skill stays in sync as the repo updates:
 
 ```bash
-ln -s "$(pwd)/ai-skills/ai-skills/sharpen" ~/.claude/skills/sharpen
+ln -s "$(pwd)/ai-skills/<skill-name>" ~/.claude/skills/<skill-name>
 ```
 
-## Use
-
-```
-/sharpen <paste your feedback or feature ask>
-```
-
-The skill runs as a multi-turn dialogue. Each phase ends with a clear handoff line; you reply to advance. Expect roughly 3–6 turns for clear asks, more for branchy ones.
-
-When it's done, you'll have `requirements/<slug>.md`. Enter plan mode (`Shift+Tab Shift+Tab`) and reference the artifact in your first message.
-
-## Other skills
-
-This repo will hold additional Claude Code skills under [`ai-skills/`](ai-skills/) as they're written. Each skill is a self-contained folder you can install on its own.
+See each skill's own README for details.
 
 ## License
 
