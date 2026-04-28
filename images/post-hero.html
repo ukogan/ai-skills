@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Concept-planning before plan mode</title>
+<title>A new mode for Claude Code</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
@@ -18,7 +18,7 @@
   }
   .frame {
     width: 1080px;
-    min-height: 1500px;
+    min-height: 1200px;
     padding: 80px 96px 72px;
     margin: 0 auto;
     background: #fafaf9;
@@ -43,7 +43,7 @@
     vertical-align: middle; margin-right: 10px; margin-bottom: 2px;
   }
   .title {
-    font-size: 56px;
+    font-size: 60px;
     font-weight: 800;
     letter-spacing: -0.035em;
     color: #0c0a09;
@@ -61,7 +61,7 @@
     font-size: 19px;
     color: #57534e;
     margin-top: 20px;
-    max-width: 620px;
+    max-width: 680px;
     line-height: 1.45;
   }
 
@@ -71,56 +71,53 @@
     flex-direction: column;
     align-items: stretch;
     gap: 0;
-    margin-top: 8px;
+    margin-top: 20px;
   }
   .step {
     background: #ffffff;
     border: 1px solid #e7e5e4;
     border-radius: 16px;
-    padding: 22px 28px;
+    padding: 28px 32px;
     display: flex;
     align-items: center;
-    gap: 22px;
+    gap: 24px;
   }
-  .step-num {
-    flex: 0 0 44px;
-    height: 44px;
-    border-radius: 10px;
-    background: #f5f5f4;
-    color: #78716c;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .step-tag {
+    flex: 0 0 auto;
     font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
     font-weight: 600;
-    font-size: 15px;
+    color: #a8a29e;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    min-width: 92px;
   }
   .step-body { flex: 1; }
   .step-title {
-    font-size: 19px;
+    font-size: 24px;
     font-weight: 700;
     color: #1c1917;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.015em;
   }
   .step-desc {
-    font-size: 14px;
+    font-size: 15px;
     color: #78716c;
-    margin-top: 4px;
-    line-height: 1.4;
+    margin-top: 6px;
+    line-height: 1.45;
   }
   .arrow {
     align-self: center;
-    height: 32px;
+    height: 40px;
     width: 2px;
     background: linear-gradient(to bottom, #d6d3d1 0%, #d6d3d1 60%, transparent 100%);
     position: relative;
-    margin: 6px 0;
+    margin: 8px 0;
   }
   .arrow::after {
     content: '';
     position: absolute;
     bottom: 2px; left: 50%;
-    width: 9px; height: 9px;
+    width: 10px; height: 10px;
     border-right: 2px solid #a8a29e;
     border-bottom: 2px solid #a8a29e;
     transform: translateX(-50%) rotate(45deg);
@@ -129,24 +126,20 @@
   .step.hero {
     background: linear-gradient(135deg, #1e1b4b 0%, #312e81 60%, #4338ca 100%);
     border: none;
-    padding: 36px 36px;
+    padding: 42px 36px 38px;
     box-shadow:
       0 30px 60px -24px rgba(49, 46, 129, 0.55),
       0 8px 16px -8px rgba(49, 46, 129, 0.3);
     position: relative;
-    margin: 14px 0;
-    transform: scale(1.04);
+    margin: 18px 0;
+    transform: scale(1.05);
   }
-  .step.hero .step-num {
-    background: rgba(255,255,255,0.12);
-    color: #ffffff;
-    backdrop-filter: blur(4px);
-    font-size: 22px;
-    border: 1px solid rgba(255,255,255,0.18);
+  .step.hero .step-tag {
+    color: rgba(255,255,255,0.7);
   }
   .step.hero .step-title {
     color: #ffffff;
-    font-size: 28px;
+    font-size: 36px;
     letter-spacing: -0.02em;
     font-family: 'JetBrains Mono', monospace;
     font-weight: 600;
@@ -154,7 +147,7 @@
   .step.hero .step-desc {
     color: rgba(255,255,255,0.78);
     font-size: 15px;
-    margin-top: 6px;
+    margin-top: 8px;
   }
   .badge {
     position: absolute;
@@ -162,25 +155,25 @@
     left: 36px;
     background: #fbbf24;
     color: #1c1917;
-    padding: 6px 14px;
+    padding: 7px 16px;
     border-radius: 999px;
     font-size: 11px;
     font-weight: 800;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     box-shadow: 0 6px 16px -6px rgba(251, 191, 36, 0.6);
   }
   .phase-pills {
     display: flex;
     gap: 8px;
-    margin-top: 14px;
+    margin-top: 16px;
     flex-wrap: wrap;
   }
   .pill {
     background: rgba(255,255,255,0.12);
     border: 1px solid rgba(255,255,255,0.18);
     color: rgba(255,255,255,0.92);
-    padding: 5px 12px;
+    padding: 6px 14px;
     border-radius: 999px;
     font-size: 12px;
     font-weight: 500;
@@ -188,7 +181,7 @@
   }
 
   .footer {
-    margin-top: 60px;
+    margin-top: 56px;
     padding-top: 28px;
     border-top: 1px solid #e7e5e4;
     display: flex;
@@ -213,26 +206,17 @@
 <div class="frame">
   <div class="header">
     <div class="eyebrow"><span class="dot"></span>A new mode for Claude Code</div>
-    <h1 class="title">Concept planning,<br><em>before plan mode.</em></h1>
-    <div class="subtitle">A read-only dialogue that sharpens requirements, edge cases, and UI direction — so plan mode stops re-litigating what to build and focuses on how.</div>
+    <h1 class="title">Sharpen,<br>then <em>plan,</em> then code.</h1>
+    <div class="subtitle">A read-only dialogue mode for sharpening requirements before plan mode picks them up. So plan mode stops re-litigating what to build, and focuses on how.</div>
   </div>
 
   <div class="flow">
-    <div class="step">
-      <div class="step-num">01</div>
-      <div class="step-body">
-        <div class="step-title">Idea</div>
-        <div class="step-desc">Feedback, feature ask, or a rough direction in your own words</div>
-      </div>
-    </div>
-    <div class="arrow"></div>
-
     <div class="step hero">
-      <span class="badge">The new thing</span>
-      <div class="step-num">/</div>
+      <span class="badge">New mode</span>
+      <div class="step-tag">01 · Mode</div>
       <div class="step-body">
         <div class="step-title">/sharpen</div>
-        <div class="step-desc">A read-only dialogue. Strict no code edits — just sharpening.</div>
+        <div class="step-desc">Read-only dialogue. Strict no code edits. The artifact is a requirements file in plain English.</div>
         <div class="phase-pills">
           <span class="pill">Capture</span>
           <span class="pill">Probe</span>
@@ -245,28 +229,19 @@
     <div class="arrow"></div>
 
     <div class="step">
-      <div class="step-num">03</div>
-      <div class="step-body">
-        <div class="step-title">requirements/&lt;slug&gt;.md</div>
-        <div class="step-desc">Goals, edge cases, what's deferred, what's out of scope — all settled</div>
-      </div>
-    </div>
-    <div class="arrow"></div>
-
-    <div class="step">
-      <div class="step-num">04</div>
+      <div class="step-tag">02 · Mode</div>
       <div class="step-body">
         <div class="step-title">Plan Mode</div>
-        <div class="step-desc">Pure implementation planning — no product debates</div>
+        <div class="step-desc">Pure implementation planning, against a settled spec. No requirements debate.</div>
       </div>
     </div>
     <div class="arrow"></div>
 
     <div class="step">
-      <div class="step-num">05</div>
+      <div class="step-tag">03</div>
       <div class="step-body">
         <div class="step-title">Code</div>
-        <div class="step-desc">Built against a settled spec</div>
+        <div class="step-desc">Built against a plan you trust.</div>
       </div>
     </div>
   </div>
