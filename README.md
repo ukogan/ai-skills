@@ -1,12 +1,8 @@
-# ai-skills
+# /sharpen
 
-Skills I've built for [Claude Code](https://claude.com/claude-code).
+A new mode for [Claude Code](https://claude.com/claude-code): concept planning that runs before plan mode.
 
-![Concept planning before plan mode](images/post-hero.png)
-
-## Skills
-
-### `/sharpen` — concept-planning before plan mode
+![Sharpen, then plan, then code](images/post-hero.png)
 
 A read-only dialogue mode that sits between "rough idea" and plan mode. The goal: by the time `/sharpen` exits, the requirements are specific enough that plan mode is purely about implementation, not about understanding what you want.
 
@@ -14,7 +10,7 @@ Strict read-only on the codebase. The only writable targets are `requirements/<s
 
 ![How /sharpen works](images/phase-pipeline.png)
 
-#### When to use
+## When to use
 
 - Branchy feedback or feature asks with embedded examples and "even better would be" extensions.
 - "Don't implement yet — let's nail down the requirements first."
@@ -22,7 +18,7 @@ Strict read-only on the codebase. The only writable targets are `requirements/<s
 
 Skip for trivial fixes and clear bug reports — just fix those.
 
-#### What you get out
+## What you get out
 
 A `requirements/<slug>.md` artifact with:
 
@@ -34,20 +30,20 @@ A `requirements/<slug>.md` artifact with:
 
 Plus optional wireframes (ASCII inline, HTML mockups, or a Claude Design prompt — your pick based on whether you're exploring directions or refining one).
 
-#### Install
+## Install
 
 ```bash
 git clone https://github.com/ukogan/ai-skills.git
-cp -r ai-skills/sharpen ~/.claude/skills/
+cp -r ai-skills/ai-skills/sharpen ~/.claude/skills/sharpen/
 ```
 
 Or symlink so you get updates:
 
 ```bash
-ln -s "$(pwd)/ai-skills/sharpen" ~/.claude/skills/sharpen
+ln -s "$(pwd)/ai-skills/ai-skills/sharpen" ~/.claude/skills/sharpen
 ```
 
-#### Use
+## Use
 
 ```
 /sharpen <paste your feedback or feature ask>
@@ -56,6 +52,10 @@ ln -s "$(pwd)/ai-skills/sharpen" ~/.claude/skills/sharpen
 The skill runs as a multi-turn dialogue. Each phase ends with a clear handoff line; you reply to advance. Expect roughly 3–6 turns for clear asks, more for branchy ones.
 
 When it's done, you'll have `requirements/<slug>.md`. Enter plan mode (`Shift+Tab Shift+Tab`) and reference the artifact in your first message.
+
+## Other skills
+
+This repo will hold additional Claude Code skills under [`ai-skills/`](ai-skills/) as they're written. Each skill is a self-contained folder you can install on its own.
 
 ## License
 
