@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>/sharpen — phase pipeline</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: #fafaf9;
+    color: #1c1917;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .frame {
+    width: 1400px;
+    min-height: 540px;
+    padding: 56px 64px;
+    margin: 0 auto;
+    background: #fafaf9;
+    background-image:
+      radial-gradient(circle at 5% 0%, rgba(49,46,129,0.04), transparent 50%),
+      radial-gradient(circle at 95% 100%, rgba(245,158,11,0.04), transparent 50%);
+  }
+  .header { margin-bottom: 36px; }
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-size: 12px;
+    font-weight: 700;
+    color: #78716c;
+    margin-bottom: 12px;
+  }
+  .eyebrow .dot {
+    display: inline-block; width: 6px; height: 6px;
+    background: #312e81; border-radius: 50%;
+    vertical-align: middle; margin-right: 10px; margin-bottom: 2px;
+  }
+  .title {
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    color: #0c0a09;
+    margin: 0;
+    line-height: 1.15;
+  }
+  .title code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 28px;
+    font-weight: 700;
+    background: linear-gradient(120deg, #312e81 0%, #4338ca 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .subtitle {
+    font-size: 15px;
+    color: #57534e;
+    margin-top: 8px;
+  }
+
+  .pipeline {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    align-items: stretch;
+    position: relative;
+  }
+  .pipeline::before {
+    content: '';
+    position: absolute;
+    top: 36px;
+    left: 6%;
+    right: 6%;
+    height: 2px;
+    background: repeating-linear-gradient(
+      to right,
+      #d6d3d1 0,
+      #d6d3d1 6px,
+      transparent 6px,
+      transparent 12px
+    );
+    z-index: 0;
+  }
+  .phase {
+    background: #ffffff;
+    border: 1px solid #e7e5e4;
+    border-radius: 14px;
+    padding: 24px 22px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1;
+  }
+  .phase-num {
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    background: #f5f5f4;
+    color: #78716c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    font-size: 13px;
+  }
+  .phase-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1c1917;
+    letter-spacing: -0.01em;
+  }
+  .phase-name .opt {
+    font-size: 11px;
+    font-weight: 600;
+    color: #a8a29e;
+    margin-left: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .phase-desc {
+    font-size: 13px;
+    color: #57534e;
+    line-height: 1.5;
+  }
+  .phase-tag {
+    margin-top: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #312e81;
+    background: #ede9fe;
+    padding: 4px 10px;
+    border-radius: 6px;
+    align-self: flex-start;
+    font-weight: 500;
+  }
+  .footer {
+    margin-top: 36px;
+    text-align: center;
+    color: #78716c;
+    font-size: 13px;
+  }
+  .footer code {
+    font-family: 'JetBrains Mono', monospace;
+    background: #f5f5f4;
+    border: 1px solid #e7e5e4;
+    padding: 3px 8px;
+    border-radius: 5px;
+    color: #1c1917;
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="header">
+    <div class="eyebrow"><span class="dot"></span>Inside the skill</div>
+    <h1 class="title">How <code>/sharpen</code> works</h1>
+    <div class="subtitle">Five phases. Each one ends with a handoff, so you control the pace.</div>
+  </div>
+
+  <div class="pipeline">
+    <div class="phase">
+      <div class="phase-num">01</div>
+      <div class="phase-name">Capture</div>
+      <div class="phase-desc">Echo for clear input. Structured framing for branchy input — restated goal, reusable pieces, missing pieces, numbered decisions.</div>
+      <div class="phase-tag">adaptive</div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">02</div>
+      <div class="phase-name">Probe</div>
+      <div class="phase-desc">Settle decisions. Surface edge cases — empty, error, concurrent, permission. Confirm what's out of scope.</div>
+      <div class="phase-tag">batched</div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">03</div>
+      <div class="phase-name">Wireframe<span class="opt">opt-in</span></div>
+      <div class="phase-desc">ASCII for structure. HTML when exploring multiple directions. Claude Design prompt when refining one.</div>
+      <div class="phase-tag">3 paths</div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">04</div>
+      <div class="phase-name">Supportability</div>
+      <div class="phase-desc">Read-only check vs the codebase. Heavy items get a forced keep / defer / cut decision before plan mode commits engineering effort.</div>
+      <div class="phase-tag">read-only</div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">05</div>
+      <div class="phase-name">Handoff</div>
+      <div class="phase-desc">Write requirements/&lt;slug&gt;.md. Print transition instructions. Plan mode picks it up next.</div>
+      <div class="phase-tag">artifact</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Strict read-only on the codebase  ·  invoke with <code>/sharpen &lt;ask&gt;</code>
+  </div>
+</div>
+</body>
+</html>
