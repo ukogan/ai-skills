@@ -34,13 +34,13 @@ Plus optional wireframes (ASCII inline, HTML mockups, or a Claude Design prompt 
 
 ```bash
 git clone https://github.com/ukogan/ai-skills.git
-cp -r ai-skills/ai-skills/sharpen ~/.claude/skills/sharpen/
+cp -r ai-skills/sharpen ~/.claude/skills/sharpen/
 ```
 
 Or symlink so you get updates:
 
 ```bash
-ln -s "$(pwd)/ai-skills/ai-skills/sharpen" ~/.claude/skills/sharpen
+ln -s "$(pwd)/ai-skills/sharpen" ~/.claude/skills/sharpen
 ```
 
 ## Use
@@ -55,7 +55,7 @@ When it's done, you'll have `requirements/<slug>.md`. Enter plan mode (`Shift+Ta
 
 ## Other skills
 
-This repo will hold additional Claude Code skills under [`ai-skills/`](ai-skills/) as they're written. Each skill is a self-contained folder you can install on its own.
+See the [repo root](../) for the full list.
 
 ## License
 
