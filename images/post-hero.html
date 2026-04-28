@@ -18,8 +18,8 @@
   }
   .frame {
     width: 1080px;
-    min-height: 1200px;
-    padding: 80px 96px 72px;
+    min-height: 820px;
+    padding: 80px 96px;
     margin: 0 auto;
     background: #fafaf9;
     background-image:
@@ -27,8 +27,8 @@
       radial-gradient(circle at 90% 95%, rgba(245,158,11,0.05), transparent 50%);
     display: flex;
     flex-direction: column;
+    justify-content: center;
   }
-  .header { margin-bottom: 56px; }
   .eyebrow {
     text-transform: uppercase;
     letter-spacing: 0.22em;
@@ -204,12 +204,6 @@
 </head>
 <body>
 <div class="frame">
-  <div class="header">
-    <div class="eyebrow"><span class="dot"></span>A new mode for Claude Code</div>
-    <h1 class="title">Sharpen,<br>then <em>plan,</em> then code.</h1>
-    <div class="subtitle">A read-only dialogue mode for sharpening requirements before plan mode picks them up. So plan mode stops re-litigating what to build, and focuses on how.</div>
-  </div>
-
   <div class="flow">
     <div class="step hero">
       <span class="badge">New mode</span>
@@ -244,11 +238,6 @@
         <div class="step-desc">Built against a plan you trust.</div>
       </div>
     </div>
-  </div>
-
-  <div class="footer">
-    <span><span class="repo">github.com/ukogan/ai-skills</span></span>
-    <span>Invoke: <code>/sharpen &lt;ask&gt;</code></span>
   </div>
 </div>
 </body>
