@@ -71,9 +71,8 @@ Produce a framing document with these sections (any optional, in this order):
 1. **Restated goal / conceptual shift** — one paragraph naming what the request changes at a mental-model level. Not "you want X feature" but "you want the system to behave like Y instead of Z." Lead with the shift.
 2. **What's reusable** — quick read of existing code/structures the requirement can build on. Bullet list, names not paths.
 3. **What's missing** — pieces the requirement assumes but doesn't have. Bullet list.
-4. **Decisions to settle** — numbered open questions, each with 2-3 sub-options and a recommended lean. The recommended lean has a one-line *why*. See formatting rules below.
-5. **Gating decisions** — distillation: "settle these N first; the rest follow." Letter-list (A, B, C, ...).
-6. **Out-of-scope flags** — related work that should be its own ticket. Bullet list with one-line reason each.
+4. **Decisions to settle** — numbered open questions, each with 2-4 sub-options and a recommended lean. The recommended lean has a one-line *why*. See formatting rules below, and "How many decisions, and in what order" further down.
+5. **Out-of-scope flags** — related work that should be its own ticket. Bullet list with one-line reason each.
 
 #### Decisions formatting rules
 
@@ -104,7 +103,14 @@ Example shape (copy this structure exactly):
 2.4 Each input is a structured record with fields (source, date, who).
 ```
 
-End with: `## End of Capture — push back, add missing concerns, or answer the gating decisions to advance to Probe.`
+#### How many decisions, and in what order
+
+- Surface only as many decisions as the input actually raises. If 3 are enough, show 3. Do not pad to hit a target.
+- **Cap at 15 total.** Beyond that, the requirements are too unsettled for one sharpen pass — flag it and ask the user to narrow scope.
+- **Present in batches of 5.** Show the first 5, end with the standard handoff line, and wait. After the user responds, show the next 5 if needed (taking their answers into account, since some later decisions may now be moot or reframed).
+- **Order by gating relationship, not by topic.** If decision X's answer would change whether decision Y is even relevant, X comes first. Often a gating decision answered one way collapses 2-3 downstream decisions, so asking it first saves the user from settling questions that turn out not to matter. No separate "gating decisions" section — ordering does the work.
+
+End with: `## End of Capture (batch N of M) — answer these or push back; I'll surface the next batch after.`
 
 ### How to choose mode
 

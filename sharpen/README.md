@@ -59,8 +59,9 @@ When it's done, you'll have `requirements/<slug>.md`. Enter plan mode (`Shift+Ta
 
 ### v1.1 — 2026-05-05
 
-- **Decisions list renders cleanly.** Top-level decisions are now bold lines with horizontal-rule separators between them; sub-options are flush-left plain text (`1.1 Foo`, no period-space). The earlier `1.` parent / `1.1` child markdown convention collapsed into visual artifacts like "1. 1.1 Lock = ..." in some renderers — a 5-decision list became a wall.
-- **Silence is acceptance on the decisions list.** Anything you don't explicitly address now defaults to the recommended (`>>`-marked) sub-option and is tagged `(default)` in the summary so you can spot and override. The recommendation already stated its rationale; re-asking was friction.
+- **Decisions are staged, not dumped.** The big one. Capture surfaces decisions in batches of 5, ordered by gating relationship — the question whose answer changes whether downstream questions are even relevant comes first. You answer the first batch, the next batch is recomputed against your answers (so collapsed questions disappear), then it's shown. Cap at 15 total; beyond that, the scope is too big for one sharpen pass and you're asked to narrow. Replaces the old "wall of 10+ decisions" experience.
+- **Silence is acceptance.** Anything you don't explicitly address in a batch now defaults to the recommended (`>>`-marked) sub-option and is tagged `(default)` in the summary so you can spot and override. The recommendation already stated its rationale; re-asking was friction.
+- **Decisions list renders cleanly.** Top-level decisions are bold lines with horizontal-rule separators; sub-options are flush-left plain text. The earlier `1.` parent / `1.1` child markdown convention collapsed into visual artifacts like "1. 1.1 Lock = ..." in some renderers.
 
 ### v1.0 — Initial release
 
