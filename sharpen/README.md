@@ -1,5 +1,7 @@
 # /sharpen
 
+**Current version: 1.1** — see [Changelog](#changelog).
+
 A new mode for [Claude Code](https://claude.com/claude-code): concept planning that runs before plan mode.
 
 ![Sharpen, then plan, then code](images/post-hero.png)
@@ -52,6 +54,17 @@ ln -s "$(pwd)/ai-skills/sharpen" ~/.claude/skills/sharpen
 The skill runs as a multi-turn dialogue. Each phase ends with a clear handoff line; you reply to advance. Expect roughly 3–6 turns for clear asks, more for branchy ones.
 
 When it's done, you'll have `requirements/<slug>.md`. Enter plan mode (`Shift+Tab Shift+Tab`) and reference the artifact in your first message.
+
+## Changelog
+
+### v1.1 — 2026-05-05
+
+- **Decisions list renders cleanly.** Top-level decisions are now bold lines with horizontal-rule separators between them; sub-options are flush-left plain text (`1.1 Foo`, no period-space). The earlier `1.` parent / `1.1` child markdown convention collapsed into visual artifacts like "1. 1.1 Lock = ..." in some renderers — a 5-decision list became a wall.
+- **Silence is acceptance on the decisions list.** Anything you don't explicitly address now defaults to the recommended (`>>`-marked) sub-option and is tagged `(default)` in the summary so you can spot and override. The recommendation already stated its rationale; re-asking was friction.
+
+### v1.0 — Initial release
+
+First public release. Six-phase dialogue: Capture → Probe → Wireframes (optional) → Supportability check → Finalize → Handoff. Read-only on the codebase; writes only to `requirements/`.
 
 ## Other skills
 
