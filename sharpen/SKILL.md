@@ -71,9 +71,38 @@ Produce a framing document with these sections (any optional, in this order):
 1. **Restated goal / conceptual shift** — one paragraph naming what the request changes at a mental-model level. Not "you want X feature" but "you want the system to behave like Y instead of Z." Lead with the shift.
 2. **What's reusable** — quick read of existing code/structures the requirement can build on. Bullet list, names not paths.
 3. **What's missing** — pieces the requirement assumes but doesn't have. Bullet list.
-4. **Decisions to settle** — numbered open questions, each with 2-3 sub-options and a recommended lean. Use the user's CLAUDE.md numbering convention (`1. 1.1 1.2 ... 2.`). The recommended lean has a one-line *why*.
+4. **Decisions to settle** — numbered open questions, each with 2-3 sub-options and a recommended lean. The recommended lean has a one-line *why*. See formatting rules below.
 5. **Gating decisions** — distillation: "settle these N first; the rest follow." Letter-list (A, B, C, ...).
 6. **Out-of-scope flags** — related work that should be its own ticket. Bullet list with one-line reason each.
+
+#### Decisions formatting rules
+
+- **Top-level decision = bold heading line, NOT a markdown list item.** Write `**1. Bucket model**`, never `1. Bucket model`. A `1.` list marker causes markdown renderers to fold the sub-options into the parent list item, producing visual artifacts like "1. 1.1 Lock = freeze...". Bold-prefixed lines render cleanly and don't auto-renumber.
+- **Sub-options use bare dotted numbering (`1.1`, `1.2`) — no period-space after.** `1.1 Foo` is plain text in CommonMark; `1. Foo` is a list item. Keep them as plain text lines so they don't get list-formatted either.
+- **Separate top-level decisions with a horizontal rule (`---`) on its own line, surrounded by blank lines.** A blank line alone is not enough — markdown often collapses it, and dense decisions become a wall. The horizontal rule guarantees a visible break in every renderer.
+- **Do not indent sub-options.** Indentation triggers code-block or nested-list behavior in some renderers. Flush left.
+- Mark the recommended sub-option with `>>` in front and bold the entire option line, so the lean is visible at a glance.
+- Put the lean reasoning in parentheses on the same line as the recommended option — short, one clause, no preamble like "Lean:" or "Recommended:".
+- Non-recommended sub-options stay plain (no `>>`, no bold), one per line.
+
+Example shape (copy this structure exactly):
+
+```
+**1. Bucket model**
+
+1.1 User defines buckets from a blank slate.
+>> **1.2 Ship a starter set ("customer voice", "market intel", ...) that's renamable/deletable.** (blank slates intimidate; a starter set still permits any structure)
+1.3 Buckets are just tags on items, no formal container.
+
+---
+
+**2. Input shape per bucket**
+
+2.1 Plain text only.
+2.2 Plain text + file uploads (PDF, .txt, transcripts).
+>> **2.3 Plain text + files + URL fetch (auto-clean web content).** (matches PM reality: Gong, blog posts, Notion exports)
+2.4 Each input is a structured record with fields (source, date, who).
+```
 
 End with: `## End of Capture — push back, add missing concerns, or answer the gating decisions to advance to Probe.`
 
@@ -94,9 +123,10 @@ Goal: drive the requirements to the point where every functional behavior is spe
 The framing already produced numbered decisions. Probe is just collecting answers:
 
 1. Take the user's response in whatever form (free-form, "1.2, 3.1, defer 5", inline corrections).
-2. Update the running requirements list.
-3. For any decision not settled, re-ask only that one. Do not re-ask settled items.
-4. Add edge cases the user's answers reveal.
+2. **For any decision the user did not explicitly address, default to the recommended (`>>`-marked) sub-option.** Do not re-ask. The recommendation already had its rationale stated; silence is acceptance. When summarizing what's settled, mark these with `(default)` so the user can spot them and override if needed: e.g., "1.2 (default), 2.3, 3.1 (default)".
+3. Update the running requirements list.
+4. For any decision that had no recommendation (rare — only when truly even tradeoffs), re-ask only that one. Do not re-ask settled or defaulted items.
+5. Add edge cases the user's answers reveal.
 
 ### If Capture was Mode A
 
