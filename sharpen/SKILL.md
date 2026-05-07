@@ -80,9 +80,9 @@ Produce a framing document with these sections (any optional, in this order):
 - **Sub-options use bare dotted numbering (`1.1`, `1.2`) — no period-space after.** `1.1 Foo` is plain text in CommonMark; `1. Foo` is a list item. Keep them as plain text lines so they don't get list-formatted either.
 - **Separate top-level decisions with a horizontal rule (`---`) on its own line, surrounded by blank lines.** A blank line alone is not enough — markdown often collapses it, and dense decisions become a wall. The horizontal rule guarantees a visible break in every renderer.
 - **Do not indent sub-options.** Indentation triggers code-block or nested-list behavior in some renderers. Flush left.
-- Mark the recommended sub-option with `>>` in front and bold the entire option line, so the lean is visible at a glance.
-- Put the lean reasoning in parentheses on the same line as the recommended option — short, one clause, no preamble like "Lean:" or "Recommended:".
-- Non-recommended sub-options stay plain (no `>>`, no bold), one per line.
+- **Mark the recommended sub-option with a Unicode arrow `→` placed inside the bold span**, so the entire option line reads as the recommendation in one bolded run: `**→ 1.2 Ship a starter set …** (lean reasoning)`. **Do NOT use `>>`** — markdown renders `> > ` at the start of a line as a doubly-nested blockquote, producing two left-border vertical bars (`▎ ▎`) instead of any arrow. **Do NOT use `*`, `-`, `+`, or `>`** as the marker — all are markdown-meaningful at line start. `→` (U+2192) is plain text in CommonMark and renders identically across renderers.
+- Put the lean reasoning in parentheses on the same line as the recommended option, *outside* the bold span — short, one clause, no preamble like "Lean:" or "Recommended:".
+- Non-recommended sub-options stay plain (no arrow, no bold), one per line.
 
 Example shape (copy this structure exactly):
 
@@ -90,7 +90,7 @@ Example shape (copy this structure exactly):
 **1. Bucket model**
 
 1.1 User defines buckets from a blank slate.
->> **1.2 Ship a starter set ("customer voice", "market intel", ...) that's renamable/deletable.** (blank slates intimidate; a starter set still permits any structure)
+**→ 1.2 Ship a starter set ("customer voice", "market intel", ...) that's renamable/deletable.** (blank slates intimidate; a starter set still permits any structure)
 1.3 Buckets are just tags on items, no formal container.
 
 ---
@@ -99,7 +99,7 @@ Example shape (copy this structure exactly):
 
 2.1 Plain text only.
 2.2 Plain text + file uploads (PDF, .txt, transcripts).
->> **2.3 Plain text + files + URL fetch (auto-clean web content).** (matches PM reality: Gong, blog posts, Notion exports)
+**→ 2.3 Plain text + files + URL fetch (auto-clean web content).** (matches PM reality: Gong, blog posts, Notion exports)
 2.4 Each input is a structured record with fields (source, date, who).
 ```
 
@@ -129,7 +129,7 @@ Goal: drive the requirements to the point where every functional behavior is spe
 The framing already produced numbered decisions. Probe is just collecting answers:
 
 1. Take the user's response in whatever form (free-form, "1.2, 3.1, defer 5", inline corrections).
-2. **For any decision the user did not explicitly address, default to the recommended (`>>`-marked) sub-option.** Do not re-ask. The recommendation already had its rationale stated; silence is acceptance. When summarizing what's settled, mark these with `(default)` so the user can spot them and override if needed: e.g., "1.2 (default), 2.3, 3.1 (default)".
+2. **For any decision the user did not explicitly address, default to the recommended (`→`-marked) sub-option.** Do not re-ask. The recommendation already had its rationale stated; silence is acceptance. When summarizing what's settled, mark these with `(default)` so the user can spot them and override if needed: e.g., "1.2 (default), 2.3, 3.1 (default)".
 3. Update the running requirements list.
 4. For any decision that had no recommendation (rare — only when truly even tradeoffs), re-ask only that one. Do not re-ask settled or defaulted items.
 5. Add edge cases the user's answers reveal.
@@ -339,15 +339,66 @@ End with: `## End of Finalize — review the artifact at requirements/<slug>.md 
 
 ## Phase 6: Handoff
 
-Print, exactly:
+Goal: hand the user a set of ready-to-paste prompts — one per prerequisite, plus the plan-mode prompt last — so they can copy-clear-paste-go each step in a fresh session.
 
-> **Ready for plan mode.** The plan should consume `requirements/<slug>.md` and not re-litigate requirements.
-> 
-> To proceed: enter plan mode (Shift+Tab Shift+Tab) and reference the artifact in your first message.
-> 
-> Out-of-scope items and deferred requirements are listed in the artifact; do not let plan mode pick them up unless you explicitly raise them.
+### Identify prerequisites
 
-**Do NOT auto-enter plan mode.** The user reads the artifact first.
+Scan the finalized artifact for sections that gate plan mode:
+
+- **Pre-plan investigative spike** — when the artifact has an explicit spike section, emit one prereq prompt for it.
+- **Open questions that require investigation** before planning (data-availability scans, pilot selection, customer-side decisions). Distinguish from *tuning-knob* open questions (numeric thresholds, bin sizes) — tuning knobs belong to plan mode itself, not to a prereq.
+- **External dependencies** the artifact assumes (customer authorization, schema migration, API key provisioning) — only when discrete pre-plan work is required.
+
+If there are zero prereqs, emit only the plan-mode prompt.
+
+### What to print, in order
+
+**1. Readiness statement** — exact text:
+
+> **Ready for plan mode.** The artifact is at `requirements/<slug>.md`. Prerequisite prompts and the plan-mode handoff prompt are below — copy, clear, paste, go in order.
+>
+> Out-of-scope items and deferred requirements are in the artifact; do not let plan mode pick them up unless you explicitly raise them.
+
+**2. Order of operations** — list each prereq plus plan mode in the sequence the user should run them, each in a fresh `/clear`'d session. One line per step.
+
+**3. One fenced code block per prereq.** Each block is a self-contained prompt for a fresh session. Shape:
+
+````markdown
+**Prereq N: <name>** — one-line purpose.
+
+```
+<self-contained prompt body — see rules below>
+```
+````
+
+The prompt body MUST:
+
+- Reference `requirements/<slug>.md` by absolute or repo-relative path so the fresh session reads it.
+- Name **one** deliverable file path under `requirements/` for output (e.g. `requirements/<slug>-prior-art.md`, `requirements/<slug>-pilot-scan.md`, `requirements/<slug>-schema-spike.md`).
+- State strict-read-only on the codebase (the only writable target is the named deliverable).
+- Forbid entering plan mode and forbid starting implementation.
+- Name the tools/data sources the prereq needs (e.g. "use ebdb-mcp", "WebSearch + WebFetch for prior art").
+- End with the line: `When <deliverable path> lands, stop.`
+
+**4. Plan-mode handoff prompt** — always last, always emitted, in a fenced code block:
+
+````markdown
+**Plan mode handoff** — paste after prereqs land.
+
+```
+Read requirements/<slug>.md and any prerequisite outputs in requirements/ (e.g. <slug>-prior-art.md, <slug>-pilot-scan.md). Then enter plan mode and produce an implementation plan.
+
+Constraints:
+- Do not re-litigate requirements. The artifact is settled.
+- Do not pick up out-of-scope or deferred items unless I explicitly raise them.
+- Reference functional requirements by number; reuse the Trivial / Moderate / Heavy supportability classifications already in the artifact.
+- Open questions in the "Open questions for plan mode" section become plan-mode decisions — not a new requirements round.
+
+Begin.
+```
+````
+
+**Do NOT auto-enter plan mode. Do NOT auto-run prereq prompts.** The user runs each in a fresh `/clear`'d session.
 
 ---
 
