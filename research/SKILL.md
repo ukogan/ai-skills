@@ -103,7 +103,6 @@ self-contained `.html` shares by link, so it actually gets read.
 - One file: inline all CSS, JS, and SVG — no external assets, no build step.
 - Lead with the one-page answer; push depth into collapsible sections or tabs.
 - SVG diagrams for relationships and flows; real `<table>` markup for data.
-- Add a copy button that exports the core findings as markdown.
 - Restrained, professional styling — no emojis, one accent color, legible type.
 
 Use plain markdown only when the output is linear prose with no structure worth
@@ -152,7 +151,10 @@ Read `references/revision-agent.md` for the prompt template.
 
 ## Phase 3: Fact-Checking Agent
 
-Launch an agent to verify every citation in the revised report.
+Launch an agent to verify every citation in the revised report — and, in the
+same pass, check the report for internal inconsistencies: counts that don't
+match their own lists or tables, figures that disagree between sections, totals
+that don't add up. This is a document-against-itself check, no web needed.
 
 Read `references/factcheck-agent.md` for the prompt template.
 
@@ -160,7 +162,9 @@ Read `references/factcheck-agent.md` for the prompt template.
 
 ## Phase 3.5: Final Revision (if needed)
 
-If the fact-checker flagged citations, send them back for correction.
+If the fact-checker flagged citations or internal inconsistencies, send them
+back for correction. Consistency fixes are numbers/text edits only — no new
+research.
 
 Read `references/final-revision-agent.md` for the prompt template.
 
