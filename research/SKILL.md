@@ -53,19 +53,38 @@ Apply these unless the user's request explicitly overrides one:
 | **Output style** | Structured report, visual wherever structure beats prose — tables, concept-relationship diagrams, comparison matrices. When visuals do real work, deliver an HTML artifact (see below), not a long markdown file. |
 | **Tone** | Direct, unemotional, just the facts. No hedging, no praise, no throat-clearing. |
 
+### Sanity-check the defaults against the request
+
+A default is a starting point, not a straitjacket. Before applying one
+silently, judge whether the request makes it a poor fit. When it does, do not
+apply it silently — raise it in the scoping round below with a **recommended
+alternative** and a one-line reason.
+
+Examples of a request that overrides a default:
+
+- "Summarize every element of the periodic table" / "the first stanza of every
+  Beatles song" — the content can't fit in one page. Recommend a length and
+  format that can (e.g. a structured table, or a longer artifact).
+- "Teach me X well enough to hold my own with experts" — practical-summary
+  depth is too shallow. Recommend a deep-dive.
+- "Draft a leave-behind for a customer" — the terse factual tone may be too
+  blunt for the audience. Recommend matching it.
+
 ### What to still ask
 
-Run **one short round** (AskUserQuestion) covering only the query-specific
-dimensions:
+Run **one short round** (AskUserQuestion) covering:
 
 - **Scope** — boundaries and explicit exclusions.
 - **Known context** — what the user already knows, so the report doesn't repeat it.
 - **Decision context** — what decision this informs, and the options on the table.
+- **Any default flagged above** as a poor fit — presented with your recommended
+  alternative as the suggested option.
 
-If the request already answers these, skip the round. If the user says "skip"
-or "just go", apply all defaults and go straight to Phase 1. Ask further
-questions later only when the research surfaces a real fork needing the user's
-judgment.
+If the request already answers the query-specific dimensions and no default was
+flagged, skip the round. If the user says "skip" or "just go", apply the
+defaults — except for any default you flagged as unworkable, where you apply
+your recommended alternative instead and note the swap. Ask further questions
+later only when the research surfaces a real fork needing the user's judgment.
 
 ### HTML output
 
