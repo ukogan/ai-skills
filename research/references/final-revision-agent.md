@@ -4,10 +4,10 @@ Launch with: `subagent_type: "general-purpose"`
 
 ## Variables
 
-- `{revised_report}` — the current report from Phase 2.5
-- `{flagged_citations}` — flagged citations from the fact-checker in Phase 3
+- `{revised_report}` — the current report from Phase 5
+- `{flagged_citations}` — flagged citations from the fact-checker in Phase 6
 - `{consistency_flags}` — internal-consistency mismatches from the fact-checker
-  in Phase 3 (pass "none" if there were none)
+  in Phase 6 (pass "none" if there were none)
 
 ## Template
 

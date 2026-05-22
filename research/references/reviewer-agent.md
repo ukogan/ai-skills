@@ -4,7 +4,7 @@ Launch with: `subagent_type: "general-purpose"`
 
 ## Variables
 
-- `{research_report}` — the full report from Phase 1
+- `{research_report}` — the full report from Phase 3
 
 ## Template
 

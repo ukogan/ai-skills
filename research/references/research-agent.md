@@ -5,7 +5,7 @@ Launch with: `subagent_type: "general-purpose"`
 ## Variables
 
 - `{refined_query}` — the user's query after intake interview refinement
-- `{sme_brief}` — output from SME agent (if Phase 0.5 was run), otherwise omit
+- `{sme_brief}` — output from SME agent (if Phase 2 was run), otherwise omit
 - `{output_specs}` — length, format, tone, and audience from intake interview
 
 ## Template
