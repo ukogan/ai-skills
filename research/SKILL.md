@@ -35,28 +35,54 @@ appropriate variables (topic, prior outputs, etc.) into the template.
 
 ---
 
-## Phase 0: Intake Interview (required)
+## Phase 0: Intake (defaults + a short scoping round)
 
-Before any research begins, interview the user to sharpen the query. Ask as many
-questions as needed — there is no fixed limit. Keep asking until you have a clear
-picture. Use the AskUserQuestion tool for each round.
+Most output dimensions have **standing defaults** — apply them silently, do not
+interview the user about them. Only ask about the dimensions that are genuinely
+specific to this query.
 
-**Always cover these dimensions (at minimum):**
+### Standing defaults
 
-- **Scope**: Boundaries, exclusions
-- **Depth**: Quick overview vs deep-dive; academic rigor vs practical summary
-- **Audience**: Technical experts, general audience, decision-makers
-- **Output length**: 1-page brief, 5-page report, comprehensive deep-dive, etc.
-- **Output style/format**: Narrative essay, bullet summary, structured report,
-  comparison table, recommendation memo, slide-ready bullets, etc.
-- **Tone**: Formal/academic, conversational, executive-summary, etc.
-- **Known context**: What the user already knows
-- **Decision context**: Is there a specific decision to inform? What are the options?
+Apply these unless the user's request explicitly overrides one:
 
-Ask follow-up rounds if answers raise new questions. Only proceed to Phase 1
-when you have a clear, actionable research brief.
+| Dimension | Default |
+|-----------|---------|
+| **Depth** | Practical summary, no fluff — findings and what they imply, not background lectures. |
+| **Audience** | Infer from the conversation so far and the user's memory / CLAUDE.md. Do not ask. |
+| **Output length** | One page. Expand only if the user explicitly asks for more. |
+| **Output style** | Structured report, visual wherever structure beats prose — tables, concept-relationship diagrams, comparison matrices. When visuals do real work, deliver an HTML artifact (see below), not a long markdown file. |
+| **Tone** | Direct, unemotional, just the facts. No hedging, no praise, no throat-clearing. |
 
-If the user says "skip" or "just go", proceed with reasonable defaults.
+### What to still ask
+
+Run **one short round** (AskUserQuestion) covering only the query-specific
+dimensions:
+
+- **Scope** — boundaries and explicit exclusions.
+- **Known context** — what the user already knows, so the report doesn't repeat it.
+- **Decision context** — what decision this informs, and the options on the table.
+
+If the request already answers these, skip the round. If the user says "skip"
+or "just go", apply all defaults and go straight to Phase 1. Ask further
+questions later only when the research surfaces a real fork needing the user's
+judgment.
+
+### HTML output
+
+When findings carry visual structure — multi-source data, concept
+relationships, comparisons, a decision matrix — deliver the report as a
+**single self-contained HTML file**, not markdown. HTML carries what markdown
+can't (CSS layout, real tables, SVG diagrams, light interactivity), and a
+self-contained `.html` shares by link, so it actually gets read.
+
+- One file: inline all CSS, JS, and SVG — no external assets, no build step.
+- Lead with the one-page answer; push depth into collapsible sections or tabs.
+- SVG diagrams for relationships and flows; real `<table>` markup for data.
+- Add a copy button that exports the core findings as markdown.
+- Restrained, professional styling — no emojis, one accent color, legible type.
+
+Use plain markdown only when the output is linear prose with no structure worth
+showing visually.
 
 ---
 
