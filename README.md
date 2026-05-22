@@ -8,6 +8,7 @@ Skills I've built for [Claude Code](https://claude.com/claude-code). Each skill 
 |-------|--------------|
 | [`/sharpen`](sharpen/) | A read-only dialogue mode for sharpening requirements before plan mode. Captures the ask, probes edge cases, optionally generates wireframes, and runs a supportability check against your codebase before plan mode commits engineering work. |
 | [`/orient`](project-orienter/) | Solves the "cold start" problem when returning to a project after time away. Synthesizes git history, Claude session history, and planning files into an executive-level, feature-oriented status briefing — what shipped, what's in flight, where you left off. |
+| [`/research`](research/) | A multi-agent research pipeline. Runs an intake interview, then a draft → skeptical review → revision → citation fact-check sequence of specialized sub-agents, so the report you get back has already survived the critique you'd otherwise give it yourself. |
 
 ## Install one skill
 
