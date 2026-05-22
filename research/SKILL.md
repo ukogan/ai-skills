@@ -35,56 +35,64 @@ appropriate variables (topic, prior outputs, etc.) into the template.
 
 ---
 
-## Phase 0: Intake (defaults + a short scoping round)
+## Phase 0: Intake (always runs — one efficient round)
 
-Most output dimensions have **standing defaults** — apply them silently, do not
-interview the user about them. Only ask about the dimensions that are genuinely
-specific to this query.
+Phase 0 always runs. Never skip it, even on a terse request or a "just go". But
+it is **one efficient round**, not an interrogation: you assemble a complete
+research brief, show it, and let the user accept the whole thing in one pass or
+override individual dimensions.
 
 ### Standing defaults
 
-Apply these unless the user's request explicitly overrides one:
+These are the values you recommend unless the request overrides one:
 
 | Dimension | Default |
 |-----------|---------|
 | **Depth** | Practical summary, no fluff — findings and what they imply, not background lectures. |
-| **Audience** | Infer from the conversation so far and the user's memory / CLAUDE.md. Do not ask. |
-| **Output length** | One page. Expand only if the user explicitly asks for more. |
+| **Audience** | Infer from the conversation so far and the user's memory / CLAUDE.md. |
+| **Output length** | One page. |
 | **Output style** | Structured report, visual wherever structure beats prose — tables, concept-relationship diagrams, comparison matrices. When visuals do real work, deliver an HTML artifact (see below), not a long markdown file. |
 | **Tone** | Direct, unemotional, just the facts. No hedging, no praise, no throat-clearing. |
 
-### Sanity-check the defaults against the request
+### Assemble the brief
 
-A default is a starting point, not a straitjacket. Before applying one
-silently, judge whether the request makes it a poor fit. When it does, do not
-apply it silently — raise it in the scoping round below with a **recommended
-alternative** and a one-line reason.
+Decide the value you will recommend for every dimension:
 
-Examples of a request that overrides a default:
+- **Depth, Audience, Output length, Output style, Tone** — start from the
+  default, then sanity-check it against the request. A default is a starting
+  point, not a straitjacket: when the request makes one a poor fit, recommend
+  an alternative instead and keep a one-line reason for it.
+  - "Summarize every element of the periodic table" / "the first stanza of
+    every Beatles song" — can't fit one page; recommend a length and format
+    that can.
+  - "Teach me X well enough to hold my own with experts" — practical-summary
+    depth is too shallow; recommend a deep-dive.
+  - "Draft a leave-behind for a customer" — terse factual tone is too blunt for
+    the audience; recommend matching it.
+- **Scope, Known context, Decision context** — can't be defaulted. State your
+  best read from the conversation (e.g. "Scope: covering X and Y, excluding Z").
+  Where you genuinely can't infer one, say so.
 
-- "Summarize every element of the periodic table" / "the first stanza of every
-  Beatles song" — the content can't fit in one page. Recommend a length and
-  format that can (e.g. a structured table, or a longer artifact).
-- "Teach me X well enough to hold my own with experts" — practical-summary
-  depth is too shallow. Recommend a deep-dive.
-- "Draft a leave-behind for a customer" — the terse factual tone may be too
-  blunt for the audience. Recommend matching it.
+### Present the brief and confirm — efficiently
 
-### What to still ask
+Show the brief as a compact block: one line per dimension, the recommended
+value, and a short "why" on anything you changed from its default. Then run a
+**single AskUserQuestion round** so the user can proceed or adjust without
+typing:
 
-Run **one short round** (AskUserQuestion) covering:
+- One question per dimension that carries a real choice — typically depth,
+  output length, output style/format, tone, plus any scope/context point you
+  could not infer. Cap it at the 4 that matter most for this request; leave the
+  rest stated in the brief text.
+- In every question, the **first option is your recommendation**, labelled
+  "(Recommended)", with the reason in its description. List the realistic
+  alternatives after it.
+- This is one fast interaction: the user takes the first option on each
+  question to accept your whole brief, or picks an alternative on any dimension
+  they want to change. "Other" is always available for a free-text override.
 
-- **Scope** — boundaries and explicit exclusions.
-- **Known context** — what the user already knows, so the report doesn't repeat it.
-- **Decision context** — what decision this informs, and the options on the table.
-- **Any default flagged above** as a poor fit — presented with your recommended
-  alternative as the suggested option.
-
-If the request already answers the query-specific dimensions and no default was
-flagged, skip the round. If the user says "skip" or "just go", apply the
-defaults — except for any default you flagged as unworkable, where you apply
-your recommended alternative instead and note the swap. Ask further questions
-later only when the research surfaces a real fork needing the user's judgment.
+After the user answers, restate the final brief in one line and proceed to
+Phase 1. Re-ask only if an answer opens a genuine new fork.
 
 ### HTML output
 
