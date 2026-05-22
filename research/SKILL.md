@@ -48,17 +48,15 @@ These are the values you recommend unless the request overrides one:
 
 | Dimension | Default |
 |-----------|---------|
-| **Depth** | Practical summary, no fluff — findings and what they imply, not background lectures. |
-| **Audience** | Infer from the conversation so far and the user's memory / CLAUDE.md. |
-| **Output length** | One page. |
+| **Depth & length** | Practical summary, ~one page — findings and what they imply, not background lectures. Depth and length move together: a quick overview is short, a deep-dive runs long. |
+| **Audience & tone** | Audience inferred from the conversation and the user's memory / CLAUDE.md; tone direct, unemotional, just the facts — no hedging, no praise, no throat-clearing. Audience sets the tone. |
 | **Output style** | Structured report, visual wherever structure beats prose — tables, concept-relationship diagrams, comparison matrices. When visuals do real work, deliver an HTML artifact (see below), not a long markdown file. |
-| **Tone** | Direct, unemotional, just the facts. No hedging, no praise, no throat-clearing. |
 
 ### Assemble the brief
 
 Decide the value you will recommend for every dimension:
 
-- **Depth, Audience, Output length, Output style, Tone** — start from the
+- **Depth & length, Audience & tone, Output style** — start from the
   default, then sanity-check it against the request. A default is a starting
   point, not a straitjacket: when the request makes one a poor fit, recommend
   an alternative instead and keep a one-line reason for it.
@@ -80,10 +78,10 @@ value, and a short "why" on anything you changed from its default. Then run a
 **single AskUserQuestion round** so the user can proceed or adjust without
 typing:
 
-- One question per dimension that carries a real choice — typically depth,
-  output length, output style/format, tone, plus any scope/context point you
-  could not infer. Cap it at the 4 that matter most for this request; leave the
-  rest stated in the brief text.
+- One question per dimension that carries a real choice — depth & length,
+  audience & tone, output style, plus the one scope/context point you most need
+  confirmed. That is four questions, the AskUserQuestion limit; state any
+  remaining scope/context in the brief text.
 - In every question, the **first option is your recommendation**, labelled
   "(Recommended)", with the reason in its description. List the realistic
   alternatives after it.
